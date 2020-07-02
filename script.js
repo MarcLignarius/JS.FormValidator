@@ -31,10 +31,9 @@ function checkRequired(inputArr) {
 
 // Check input length
 function checkLength(input, min, max) {
-  if (
-    input.value.trim() !== '' &&
-    (input.value.length < min || input.value.length > max)
-  ) {
+  if (input.value.trim() === '') {
+    showError(input, '* Required');
+  } else if (input.value.length < min || input.value.length > max) {
     showError(input, `* Must be between ${min} and ${max} characters`);
   } else {
     showSuccess(input);
@@ -44,7 +43,9 @@ function checkLength(input, min, max) {
 // Check email is valid
 function checkEmail(input) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if (re.test(input.value)) {
+  if (input.value.trim() === '') {
+    showError(input, '* Required');
+  } else if (re.test(input.value)) {
     showSuccess(input);
   } else {
     showError(input, 'Email is not valid');
@@ -53,7 +54,11 @@ function checkEmail(input) {
 
 // Check passwords match
 function checkPasswordsMatch(input1, input2) {
-  if (input1.value !== input2.value) {
+  if (
+    input1.value.trim() !== '' &&
+    input2.value.trim() !== '' &&
+    input1.value !== input2.value
+  ) {
     showError(input2, 'Passwords do not match');
   }
 }
